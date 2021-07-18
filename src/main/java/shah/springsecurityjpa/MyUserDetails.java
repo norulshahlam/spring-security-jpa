@@ -9,10 +9,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import shah.springsecurityjpa.models.User;
+
 // 10005
 public class MyUserDetails implements UserDetails {
 
-//  10019
+  // 10019
   private String userName;
   private String password;
   private boolean active;
@@ -24,10 +25,9 @@ public class MyUserDetails implements UserDetails {
     this.userName = user.getUserName();
     this.password = user.getPassword();
     this.active = user.isActive();
-    this.authorities = Arrays.stream(user.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-}
+    this.authorities = Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,5 +63,4 @@ public class MyUserDetails implements UserDetails {
   public boolean isEnabled() {
     return active;
   }
-
 }
