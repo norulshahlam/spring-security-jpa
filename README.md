@@ -2,6 +2,10 @@
 
 using credentials from from db
 
+creeate entities
+create repo (interface)
+
+
 
 `V0`
 

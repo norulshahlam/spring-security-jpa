@@ -2,66 +2,66 @@ package shah.springsecurityjpa;
 
 import java.util.Arrays;
 import java.util.Collection;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import shah.springsecurityjpa.models.User;
 // 10005
 public class MyUserDetails implements UserDetails {
 
+//  10019
   private String userName;
+  private String password;
+  private boolean active;
+  private List<GrantedAuthority> authorities;
 
-      // 10006
-      public MyUserDetails(String userName) {
-        this.userName = userName;
-      }
-      
-      
-  //  10007
-  public MyUserDetails() {
-      }
+  // 10018
+  public MyUserDetails(User user) {
+    // 10020
+    this.userName = user.getUserName();
+    this.password = user.getPassword();
+    this.active = user.isActive();
+    this.authorities = Arrays.stream(user.getRoles().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+}
 
-
-// 10009
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    return authorities;
   }
 
   @Override
   public String getPassword() {
-//  10008
-    return "pass";
+    return password;
   }
 
   @Override
   public String getUsername() {
-//  10008
-    return userName; 
+    return userName;
   }
 
   @Override
   public boolean isAccountNonExpired() {
-//  10009
     return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
- //  10009
     return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
- //  10009
     return true;
   }
 
   @Override
   public boolean isEnabled() {
- //  10009
-    return true;
+    return active;
   }
-  
+
 }
