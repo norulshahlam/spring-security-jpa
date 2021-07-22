@@ -1,4 +1,5 @@
 package shah.springsecurityjpa;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,13 +11,13 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 // 10012
-@EnableWebSecurity 
+@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-  
+
   // 10003
-@Autowired
+  @Autowired
   UserDetailsService userDetailsService;
-  
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     // 10002
@@ -29,11 +30,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers("/admin").hasRole("ADMIN").antMatchers("/user").hasAnyRole("ADMIN", "USER")
         .antMatchers("/").permitAll().and().formLogin();
   }
-   
+
   // 10013
   @Bean
   public PasswordEncoder getPasswordEncoder() {
     return NoOpPasswordEncoder.getInstance();
-    
+
   }
 }
